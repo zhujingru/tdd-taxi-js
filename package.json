@@ -1,9 +1,12 @@
 {
-  "name": "tdd-taxi-seed-js",
+  "name": "tdd-taxi-zxj",
   "version": "1.0.0",
   "description": "TDD coding taxi problem seed",
   "main": "index.js",
-  "repository": "git@git.weilaigongzuo.com:keju/tdd-taxi-seed-js.git",
+  "repository": {
+    "type": "git",
+    "url": "git@git.weilaigongzuo.com:keju/tdd-taxi-seed-js.git"
+  },
   "author": "JimmyLv",
   "license": "MIT",
   "private": true,

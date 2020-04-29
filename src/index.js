@@ -1,17 +1,49 @@
-function your_function_from_another_module() {
-  // TODO: rename and start coding, pls move your function out of this file
-  return 'Hello World!';
+const fs = require('fs');
+
+const path = './src/fixtures/testData.txt'; // text文件的路径
+const data = fs.readFileSync(path, 'utf-8').toString();
+
+function getWaitMoney(wait) {
+  let waitMoney = 0;
+  if (wait !== 0) {
+    waitMoney = Math.ceil(wait) * 0.25;
+  }
+  return waitMoney;
 }
 
-export default function main(testDataFile = 'testData.txt') {
-  /* TODO
-    1. testDataFile为fixtures文件夹下的测试数据文件名，例如传入的值为"testData.txt"，注意并不包含文件路径。
-    2. 你写的程序将把testDataFile作为参数加载此文件并读取文件内的测试数据，并对每条测试数据计算结果。
-    3. 将所有计费结果拼接并使用\n分割，然后保存到receipt变量中。
-   */
-  const receipt = your_function_from_another_module(testDataFile);
-  console.log(receipt);
+// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line complexity
+function getkilometreMoney(kilometre) {
+  let money = 0;
+  if (kilometre > 2 && kilometre <= 8) {
+    money = Math.ceil(kilometre - 2) * 0.8 + 6;
+  } else {
+    money = Math.ceil(kilometre - 8) * 1.2 + 10.8;
+  }
+  return money;
+}
+
+function paresMoneyPay(kilometre, wait) {
+  const waitMoney = getWaitMoney(wait);
+  let kilometreMoney = 0;
+  if (kilometre > 0 && kilometre <= 2) {
+    kilometreMoney = 6;
+  } else {
+    kilometreMoney = getkilometreMoney(kilometre);
+  }
+  return `收费${Math.round(kilometreMoney + waitMoney)}元`;
+}
+
+function Taxi(info) {
+  const newsInfo = info.split('\n');
+  const receiptarr = newsInfo.map(item => {
+    const parseInfo = item.match(/\d+(.\d+)?/g);
+    return paresMoneyPay(Number(parseInfo[0]), Number(parseInfo[1]));
+  });
+  return `${receiptarr.join('\n')}\n`;
+}
+
+export default function main(testDataFile = data) {
+  const receipt = Taxi(testDataFile);
   return receipt;
 }
-
-main();
